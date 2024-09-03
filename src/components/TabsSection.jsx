@@ -33,14 +33,14 @@ export default function TabsSection() {
   }, [currentTab.tab]);
 
   return (
-    <SectionTemplate className="space-y-7 w-full pl-[14px] pb-4">
-      <div className="bg-primary p-1.5 rounded-[23px] flex justify-between gap-5 mr-10 relative">
+    <SectionTemplate className="w-full pl-[14px] pb-4">
+      <div className="bg-primary p-1.5 rounded-[23px] flex justify-between gap-5 mr-10 relative fade-outline-b">
         {Object.keys(tabs).map((tab, i) => (
           <div
             key={i}
             className={`${
               currentTab.tab !== tabs[tab] && "text-[#A3ADB2]"
-            } text-center py-[10px] text-lg font-normal font-poppins rounded-2xl cursor-pointer w-full relative z-10 transition-colors duration-500`}
+            } text-center py-[10px] text-lg font-normal font-poppins rounded-2xl cursor-pointer w-full relative z-10 transition-colors duration-500 tab-div`}
             onClick={(e) => {
               setCurrentTab({
                 tabNo: i,
@@ -49,7 +49,10 @@ export default function TabsSection() {
               });
             }}
           >
-            {tabs[tab]}
+            <p className="relative z-30">{tabs[tab]}</p>
+            {currentTab.tab !== tabs[tab] && (
+              <div className="absolute gradient-2 h-full top-0 rounded-2xl z-0 w-0 transition-all duration-300"></div>
+            )}
           </div>
         ))}
         <div
@@ -65,7 +68,7 @@ export default function TabsSection() {
         ></div>
       </div>
 
-      <div className="h-[135px] overflow-auto text-xl font-pjs font-normal text-[#969696] pr-10 leading-[26px]">
+      <div className="h-[160px] overflow-auto text-xl font-pjs font-normal text-[#969696] pr-10 leading-[26px] pt-7">
         <p>
           Hello! I’m Dave, your sales rep here from Salesforce. I’ve been
           working at this awesome company for 3 years now.
