@@ -10,12 +10,25 @@ export default function TabsSection() {
   });
   const buttonBackgroundRef = useRef();
   const sliderBtnRef = useRef();
+  const aboutMeTabBtnRef = useRef();
 
   const handleResize = () => {
-    setCurrentTab({ tabNo: 0, tab: "", width: "" });
+    const updatedWidth = getComputedStyle(aboutMeTabBtnRef.current).width;
+    if (updatedWidth) {
+      setCurrentTab((curr) => {
+        return {
+          ...curr,
+          width: updatedWidth,
+        };
+      });
+      buttonBackgroundRef.current.style.width = updatedWidth;
+    }
   };
 
   useEffect(() => {
+    if (aboutMeTabBtnRef.current) {
+      aboutMeTabBtnRef.current.click();
+    }
     handleResize();
     window.addEventListener("resize", handleResize);
 
@@ -27,7 +40,6 @@ export default function TabsSection() {
   useEffect(() => {
     if (buttonBackgroundRef.current) {
       buttonBackgroundRef.current.style.width = currentTab.width || "0px";
-      console.log("Hey");
       buttonBackgroundRef.current.style.tranform = `translateX(1000px)`;
     }
   }, [currentTab.tab]);
@@ -38,6 +50,7 @@ export default function TabsSection() {
         {Object.keys(tabs).map((tab, i) => (
           <div
             key={i}
+            {...(tabs[tab] === tabs.aboutMe ? { ref: aboutMeTabBtnRef } : {})}
             className={`${
               currentTab.tab !== tabs[tab] && "text-[#A3ADB2]"
             } text-center py-[10px] text-lg font-normal font-poppins rounded-2xl cursor-pointer w-full relative z-10 transition-colors duration-500 tab-div`}
@@ -68,26 +81,34 @@ export default function TabsSection() {
         ></div>
       </div>
 
-      <div className="h-[160px] overflow-auto text-xl font-pjs font-normal text-[#969696] pr-10 leading-[26px] pt-7">
-        <p>
-          Hello! I’m Dave, your sales rep here from Salesforce. I’ve been
-          working at this awesome company for 3 years now.
-          <br />
-          <br />I was born and raised in Albany, NY& have been living in Santa
-          Carla for the past 10 years my wife Tiffany and my 4 year old twin
-          daughters- Emma and Ella. Both of them are just starting school, so my
-          calender is usually blocked between 9-10 AM. This is a...
-        </p>
-        <br />
-        <p>
-          Hello! I’m Dave, your sales rep here from Salesforce. I’ve been
-          working at this awesome company for 3 years now.
-          <br />
-          <br />I was born and raised in Albany, NY& have been living in Santa
-          Carla for the past 10 years my wife Tiffany and my 4 year old twin
-          daughters- Emma and Ella. Both of them are just starting school, so my
-          calender is usually blocked between 9-10 AM. This is a...
-        </p>
+      <div className="h-[185px] overflow-auto text-xl font-pjs font-normal text-[#969696] pr-10 leading-[26px] pt-7">
+        {currentTab.tab === tabs.aboutMe && (
+          <div>
+            <p>
+              Hello! I’m Dave, your sales rep here from Salesforce. I’ve been
+              working at this awesome company for 3 years now.
+              <br />
+              <br />I was born and raised in Albany, NY& have been living in
+              Santa Carla for the past 10 years my wife Tiffany and my 4 year
+              old twin daughters- Emma and Ella. Both of them are just starting
+              school, so my calender is usually blocked between 9-10 AM. This is
+              a...
+            </p>
+            <br />
+            <p>
+              Hello! I’m Dave, your sales rep here from Salesforce. I’ve been
+              working at this awesome company for 3 years now.
+              <br />
+              <br />I was born and raised in Albany, NY& have been living in
+              Santa Carla for the past 10 years my wife Tiffany and my 4 year
+              old twin daughters- Emma and Ella. Both of them are just starting
+              school, so my calender is usually blocked between 9-10 AM. This is
+              a...
+            </p>
+          </div>
+        )}
+        {currentTab.tab === tabs.experiences && <p>Experiences...</p>}
+        {currentTab.tab === tabs.recommended && <p>Recommended...</p>}
       </div>
     </SectionTemplate>
   );
