@@ -1,11 +1,14 @@
 import SectionTemplate from "./SectionTemplate";
-import { cropPhoto } from "../utils";
-import { useRef, useState } from "react";
+import { cropPhoto, importAll } from "../utils";
+import { useEffect, useRef, useState } from "react";
 
 const imgGap = 20,
   imgWidth = 180;
 
 export default function GallerySection() {
+  const thumbs = importAll(
+    import.meta.glob("/public/sample_images/*.jpg", { eager: true })
+  );
   const [images, setImages] = useState([]);
   const scrollerRef = useRef();
 
@@ -59,6 +62,14 @@ export default function GallerySection() {
       }
     }
   };
+
+  useEffect(() => {
+    for (const src of Object.keys(thumbs)) {
+      cropPhoto(src).then((croppedPhotoSrc) =>
+        setImages((curr) => [...curr, croppedPhotoSrc])
+      );
+    }
+  }, []);
 
   return (
     <SectionTemplate className="w-full pr-10 overflow-hidden">

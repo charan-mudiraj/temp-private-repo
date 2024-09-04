@@ -22,3 +22,11 @@ export const cropPhoto = (imageUrl) => {
     img.src = imageUrl;
   });
 };
+
+export const importAll = (r) => {
+  let resources = {};
+  for (const path in r) {
+    resources[path.replace("./", "")] = r[path];
+  }
+  return resources;
+};
