@@ -65,7 +65,10 @@ export default function GallerySection() {
 
   useEffect(() => {
     for (const src of Object.keys(thumbs)) {
-      cropPhoto(src).then((croppedPhotoSrc) =>
+      const photoSrc = src.includes("/public", "")
+        ? src.replace("/public", "")
+        : src;
+      cropPhoto(photoSrc).then((croppedPhotoSrc) =>
         setImages((curr) => [...curr, croppedPhotoSrc])
       );
     }
